@@ -18,6 +18,8 @@
   along with WinAoE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#define STDCALL NTAPI
+
 #include "portable.h"
 #include <ntddk.h>
 
