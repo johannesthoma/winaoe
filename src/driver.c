@@ -28,7 +28,7 @@ NTSTATUS STDCALL CheckRegistry();
 // from bus.c
 NTSTATUS STDCALL BusStart();
 VOID STDCALL BusStop();
-NTSTATUS STDCALL BusAddDevice(IN PDRIVER_OBJECT DriverObject, IN PDEVICE_OBJECT PhysicalDeviceObject);
+NTSTATUS STDCALL NTAPI BusAddDevice(IN PDRIVER_OBJECT DriverObject, IN PDEVICE_OBJECT PhysicalDeviceObject);
 NTSTATUS STDCALL BusDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN PIO_STACK_LOCATION Stack, IN PDEVICEEXTENSION DeviceExtension);
 NTSTATUS STDCALL BusDispatchDeviceControl(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN PIO_STACK_LOCATION Stack, IN PDEVICEEXTENSION DeviceExtension);
 NTSTATUS STDCALL BusDispatchSystemControl(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN PIO_STACK_LOCATION Stack, IN PDEVICEEXTENSION DeviceExtension);
@@ -54,8 +54,8 @@ VOID STDCALL DebugIrpEnd(IN PIRP Irp, IN NTSTATUS Status);
 
 // in this file
 NTSTATUS STDCALL DriverEntry(IN PDRIVER_OBJECT DriverObject, IN PUNICODE_STRING RegistryPath);
-NTSTATUS STDCALL Dispatch(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp);
-VOID STDCALL Unload(IN PDRIVER_OBJECT DriverObject);
+NTSTATUS STDCALL NTAPI Dispatch(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp);
+VOID STDCALL NTAPI Unload(IN PDRIVER_OBJECT DriverObject);
 
 PVOID StateHandle;
 
@@ -109,7 +109,7 @@ NTSTATUS STDCALL DriverEntry(IN PDRIVER_OBJECT DriverObject, IN PUNICODE_STRING 
 #endif
 }
 
-NTSTATUS STDCALL Dispatch(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp) {
+NTSTATUS STDCALL NTAPI Dispatch(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp) {
   NTSTATUS Status;
   PIO_STACK_LOCATION Stack;
   PDEVICEEXTENSION DeviceExtension;
@@ -179,7 +179,7 @@ NTSTATUS STDCALL Dispatch(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp) {
   return Status;
 }
 
-VOID STDCALL Unload(IN PDRIVER_OBJECT DriverObject) {
+VOID STDCALL NTAPI Unload(IN PDRIVER_OBJECT DriverObject) {
   if (StateHandle != NULL) PoUnregisterSystemState(StateHandle);
   ProtocolStop();
   AoEStop();

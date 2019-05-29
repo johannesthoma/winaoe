@@ -126,7 +126,7 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
       RtlZeroMemory(String, (512 * sizeof(WCHAR)));
       switch (Stack->Parameters.QueryId.IdType) {
         case BusQueryDeviceID:
-          StringLength = swprintf(String, L"AoE\\Disk%lu", DeviceExtension->Disk.DiskNumber) + 1;
+          StringLength = swprintf(String, 511, L"AoE\\Disk%lu", DeviceExtension->Disk.DiskNumber) + 1;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool BusQueryDeviceID\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -136,7 +136,7 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
           Status = STATUS_SUCCESS;
           break;
         case BusQueryInstanceID:
-          StringLength = swprintf(String, L"AOEDISK%lu", DeviceExtension->Disk.DiskNumber) + 1;
+          StringLength = swprintf(String, 511, L"AOEDISK%lu", DeviceExtension->Disk.DiskNumber) + 1;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool BusQueryInstanceID\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -146,8 +146,8 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
           Status = STATUS_SUCCESS;
           break;
         case BusQueryHardwareIDs:
-          StringLength = swprintf(String, L"AoE\\Disk%lu", DeviceExtension->Disk.DiskNumber) + 1;
-          StringLength += swprintf(&String[StringLength], L"GenDisk") + 4;
+          StringLength = swprintf(String, 511, L"AoE\\Disk%lu", DeviceExtension->Disk.DiskNumber) + 1;
+          StringLength += swprintf(&String[StringLength], 511-StringLength, L"GenDisk") + 4;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool BusQueryHardwareIDs\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -157,7 +157,7 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
           Status = STATUS_SUCCESS;
           break;
         case BusQueryCompatibleIDs:
-          StringLength = swprintf(String, L"GenDisk") + 4;
+          StringLength = swprintf(String, 511, L"GenDisk") + 4;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool BusQueryCompatibleIDs\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -181,7 +181,7 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
       RtlZeroMemory(String, (512 * sizeof(WCHAR)));
       switch (Stack->Parameters.QueryDeviceText.DeviceTextType ) {
         case DeviceTextDescription:
-          StringLength = swprintf(String, L"AoE Disk") + 1;
+          StringLength = swprintf(String, 511, L"AoE Disk") + 1;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool DeviceTextDescription\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -191,7 +191,7 @@ NTSTATUS STDCALL DiskDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN
           Status = STATUS_SUCCESS;
           break;
         case DeviceTextLocationInformation:
-          StringLength = swprintf(String, L"AoE e%d.%d", DeviceExtension->Disk.Major, DeviceExtension->Disk.Minor) + 1;
+          StringLength = swprintf(String, 511, L"AoE e%d.%d", DeviceExtension->Disk.Major, DeviceExtension->Disk.Minor) + 1;
           if ((Irp->IoStatus.Information = (ULONG_PTR)ExAllocatePool(PagedPool, StringLength * sizeof(WCHAR))) == 0) {
             DbgPrint("DiskDispatchPnP ExAllocatePool DeviceTextLocationInformation\n");
             Status = STATUS_INSUFFICIENT_RESOURCES;
