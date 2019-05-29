@@ -18,8 +18,6 @@
   along with WinAoE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define STDCALL NTAPI
-
 #include "portable.h"
 #include <ntddk.h>
 #include "driver.h"
@@ -57,7 +55,7 @@ typedef struct _TARGETLIST {
 
 PTARGETLIST TargetList = NULL;
 KSPIN_LOCK TargetListSpinLock;
-ULONG NextDisk = 0;
+LONG NextDisk = 0;
 
 NTSTATUS STDCALL BusStart() {
   DbgPrint("BusStart\n");

@@ -23,17 +23,19 @@
 
 #define NDIS50 1
 #define OBJ_KERNEL_HANDLE 0x00000200L
-#ifdef _MSC_VER
+// #ifdef _MSC_VER
 #define STDCALL
-#define __attribute__(x)
+// #define __attribute__(x)
 typedef unsigned int UINT, *PUINT;
-#endif
+// #endif
 
 #if _WIN32_WINNT < 0x0502
+#if 0
 #define SCSIOP_READ16 0x88
 #define SCSIOP_WRITE16 0x8a
 #define SCSIOP_VERIFY16 0x8f
 #define SCSIOP_READ_CAPACITY16 0x9e
+#endif
 #endif
 
 #endif

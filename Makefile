@@ -53,7 +53,7 @@ src/obj/loader32.o: src/loader.c src/portable.h Makefile
 bin/loader32.exe: src/obj/loader32.o Makefile
 	@mkdir -p bin
 	@rm -rf bin/loader32.exe bin/loader64.exe
-	$(CC) $(INCLUDES) -Wall src/obj/loader32.o -o bin/loader32.exe -lsetupapi
+	$(CC) $(INCLUDES) -Wall src/obj/loader32.o -o bin/loader32.exe -lsetupapi --disable-stdcall-fixup
 	strip bin/loader32.exe
 
 src/obj/mount.o: src/mount.c src/portable.h src/mount.h Makefile
@@ -64,7 +64,7 @@ src/obj/mount.o: src/mount.c src/portable.h src/mount.h Makefile
 bin/aoe.exe: src/obj/mount.o Makefile
 	@mkdir -p bin
 	@rm -rf bin/aoe.exe
-	$(CC) -Wall src/obj/mount.o -o bin/aoe.exe
+	$(CC) -Wall src/obj/mount.o -o bin/aoe.exe --disable-stdcall-fixup
 	strip bin/aoe.exe
 
 src/obj/driver.o: src/driver.c src/portable.h src/driver.h Makefile
