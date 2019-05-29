@@ -20,8 +20,8 @@
 
 #include "portable.h"
 #include <ntddk.h>
+// #include <ntddndis.h>
 #include <ndis.h>
-#include <ntddndis.h>
 #include "protocol.h"
 #include "driver.h"
 #include "aoe.h"

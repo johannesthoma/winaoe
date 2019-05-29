@@ -25,7 +25,7 @@
 #include <ntddscsi.h>
 #include <ntddstor.h>
 #include <ntdddisk.h>
-#include <ndis.h>
+// #include <ndis.h>
 #include "driver.h"
 #include "mount.h"
 
