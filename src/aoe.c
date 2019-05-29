@@ -24,7 +24,7 @@
 #include "driver.h"
 #include "protocol.h"
 
-NTSTATUS STDCALL ZwWaitForSingleObject(IN HANDLE Handle, IN BOOLEAN Alertable, IN PLARGE_INTEGER Timeout OPTIONAL);
+NTSTATUS STDCALL NTAPI ZwWaitForSingleObject(IN HANDLE Handle, IN BOOLEAN Alertable, IN PLARGE_INTEGER Timeout OPTIONAL);
 
 // from bus.c
 VOID STDCALL BusAddTarget(IN PUCHAR ClientMac, IN PUCHAR ServerMac, USHORT Major, UCHAR Minor, LONGLONG LBASize);

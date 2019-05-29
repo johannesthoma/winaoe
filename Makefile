@@ -7,6 +7,8 @@ INCLUDES += -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ddk/
 # CC=gcc
 CC=i686-w64-mingw32-gcc
 
+DLLTOOL=i686-w64-mingw32-dlltool
+
 # Next line is duplicated in config.bat, edit both when adding files.
 c := driver.c registry.c bus.c disk.c aoe.c protocol.c debug.c
 h := driver.h aoe.h protocol.h mount.h portable.h
@@ -111,7 +113,7 @@ src/obj/aoe.tmp: src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.
 src/obj/aoe.exp: src/obj/aoe.tmp Makefile
 	@mkdir -p src/obj
 	@rm -rf src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
-	@dlltool --dllname aoe32.sys --base-file src/obj/aoe.tmp --output-exp src/obj/aoe.exp
+	$(DLLTOOL) --dllname aoe32.sys --base-file src/obj/aoe.tmp --output-exp src/obj/aoe.exp
 
 bin/aoe32.sys: src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o src/obj/aoe.exp Makefile
 	@mkdir -p bin
