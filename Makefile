@@ -1,3 +1,19 @@
+# Compiling with MinGW (cygwin) for 64-bit x86_64 architecture
+# For 32-bit see Makefile.32
+
+# Unfortunately, for signtool we still need the EWDK. There
+# might be an Open Source replacement, but for now, use the
+# EWDK.
+
+export EWDK_BASE := c:\\Ewdk
+EWDK_KIT := $(EWDK_BASE)\\Program Files\\Windows Kits\\10
+EWDK_VERSION := 10.0.15063.0
+EWDK_BIN := $(EWDK_KIT)\\bin\\x86
+
+# Name of the pfx file (without extension)
+KEY = linbit-2019
+PASSWD = ""
+
 INCLUDES := $(shell echo | cpp -v 2>&1 | sed -n '/\#include "..." search starts here:/,/End of search list./p' | grep "^ " | sed "s/^ \(.*\)$$/-I\1\/ddk/" | tr "\n" " " | sed "s/ $$//" | sed ":start;s/\/[^\/]*\/\.\.\//\//;t start")
 
 # INCLUDES += -I"/cygdrive/c/Ewdk/Program Files/Windows Kits/10/Include/10.0.15063.0/km"
@@ -20,7 +36,7 @@ h := driver.h aoe.h protocol.h mount.h portable.h
 PXESTYLE := asm
 #PXESTYLE := c
 
-all: bin/aoe.0 bin/loader32.exe bin/aoe32.sys bin/aoe.exe bin/aoe.inf bin/txtsetup.oem
+all: bin/aoe.0 bin/loader64.exe bin/aoe64.sys bin/aoe.exe bin/aoe.inf bin/txtsetup.oem
 
 clean:
 	@rm -rf src/obj src/pxe.asm/obj src/pxe.c/obj bin
@@ -49,16 +65,16 @@ bin/aoe.inf bin/txtsetup.oem: makeinf.bat Makefile
 	touch bin/aoe.inf
 	touch bin/txtsetup.oem
 
-src/obj/loader32.o: src/loader.c src/portable.h Makefile
+src/obj/loader64.o: src/loader.c src/portable.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/loader32.o bin/loader32.exe bin/loader64.exe
-	$(CC) $(INCLUDES) -c -Wall src/loader.c -o src/obj/loader32.o
+	@rm -rf src/obj/loader64.o bin/loader64.exe
+	$(CC) $(INCLUDES) -c -Wall src/loader.c -o src/obj/loader64.o
 
-bin/loader32.exe: src/obj/loader32.o Makefile
+bin/loader64.exe: src/obj/loader64.o Makefile
 	@mkdir -p bin
-	@rm -rf bin/loader32.exe bin/loader64.exe
-	$(CC) $(INCLUDES) -Wall src/obj/loader32.o -o bin/loader32.exe -lsetupapi --disable-stdcall-fixup
-	strip bin/loader32.exe
+	@rm -rf bin/loader64.exe
+	$(CC) $(INCLUDES) -Wall src/obj/loader64.o -o bin/loader64.exe -lsetupapi --disable-stdcall-fixup
+	strip bin/loader64.exe
 
 src/obj/mount.o: src/mount.c src/portable.h src/mount.h Makefile
 	@mkdir -p src/obj
@@ -73,52 +89,54 @@ bin/aoe.exe: src/obj/mount.o Makefile
 
 src/obj/driver.o: src/driver.c src/portable.h src/driver.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/driver.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/driver.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/driver.c -o src/obj/driver.o
 
 src/obj/registry.o: src/registry.c src/portable.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/registry.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/registry.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/registry.c -o src/obj/registry.o
 
 src/obj/bus.o: src/bus.c src/portable.h src/driver.h src/aoe.h src/mount.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/bus.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/bus.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/bus.c -o src/obj/bus.o
 
 src/obj/disk.o: src/disk.c src/portable.h src/driver.h src/aoe.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/disk.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/disk.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/disk.c -o src/obj/disk.o
 
 src/obj/aoe.o: src/aoe.c src/portable.h src/driver.h src/aoe.h src/protocol.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/aoe.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/aoe.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/aoe.c -o src/obj/aoe.o
 
 src/obj/protocol.o: src/protocol.c src/portable.h src/driver.h src/aoe.h src/protocol.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/protocol.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/protocol.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/protocol.c -o src/obj/protocol.o
 
 src/obj/debug.o: src/debug.c src/portable.h src/driver.h src/mount.h Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/debug.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/debug.o src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) $(INCLUDES) -c -Wall src/debug.c -o src/obj/debug.o
 
 src/obj/aoe.tmp: src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/aoe.tmp src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
+	@rm -rf src/obj/aoe.tmp src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
 	$(CC) -Wall src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o -Wl,--base-file,src/obj/aoe.tmp -Wl,--entry,_DriverEntry@8 -nostartfiles -nostdlib -lntoskrnl -lhal -lndis -o null
 	@rm -rf null.exe
 
 src/obj/aoe.exp: src/obj/aoe.tmp Makefile
 	@mkdir -p src/obj
-	@rm -rf src/obj/aoe.exp bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
-	$(DLLTOOL) --dllname aoe32.sys --base-file src/obj/aoe.tmp --output-exp src/obj/aoe.exp
+	@rm -rf src/obj/aoe.exp bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
+	$(DLLTOOL) --dllname aoe64.sys --base-file src/obj/aoe.tmp --output-exp src/obj/aoe.exp
 
-bin/aoe32.sys: src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o src/obj/aoe.exp Makefile
+bin/aoe64.sys: src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o src/obj/aoe.exp Makefile
 	@mkdir -p bin
-	@rm -rf bin/aoe32.sys bin/aoe64.sys bin/aoe32.pdb bin/aoe64.pdb bin/loader64.exe
-	$(CC) -Wall src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o -Wl,--subsystem,native -Wl,--entry,_DriverEntry@8 -Wl,src/obj/aoe.exp -mdll -nostartfiles -nostdlib -lntoskrnl -lhal -lndis -o bin/aoe32.sys
+	@rm -rf bin/aoe64.sys bin/aoe64.pdb bin/loader64.exe
+	$(CC) -Wall src/obj/driver.o src/obj/registry.o src/obj/bus.o src/obj/disk.o src/obj/aoe.o src/obj/protocol.o src/obj/debug.o -Wl,--subsystem,native -Wl,--entry,_DriverEntry@8 -Wl,src/obj/aoe.exp -mdll -nostartfiles -nostdlib -lntoskrnl -lhal -lndis -o bin/aoe64.sys
 #	strip bin/aoe32.sys
+	"$(EWDK_BIN)/signtool.exe" sign /f ./crypto/$(KEY).pfx /p $(PASSWD) /v "$@"
+

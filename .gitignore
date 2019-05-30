@@ -1,3 +1,4 @@
 .*.sw?
-makelog
+makelog*
 bin
+src/obj
