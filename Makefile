@@ -1,13 +1,15 @@
 INCLUDES := $(shell echo | cpp -v 2>&1 | sed -n '/\#include "..." search starts here:/,/End of search list./p' | grep "^ " | sed "s/^ \(.*\)$$/-I\1\/ddk/" | tr "\n" " " | sed "s/ $$//" | sed ":start;s/\/[^\/]*\/\.\.\//\//;t start")
 
 # INCLUDES += -I"/cygdrive/c/Ewdk/Program Files/Windows Kits/10/Include/10.0.15063.0/km"
+# TODO: sure? x86_64 with a i686 compiler?
 INCLUDES += -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/ddk/
 
 
 # CC=gcc
-CC=i686-w64-mingw32-gcc
-
-DLLTOOL=i686-w64-mingw32-dlltool
+# CC=i686-w64-mingw32-gcc
+# DLLTOOL=i686-w64-mingw32-dlltool
+CC=x86_64-w64-mingw32-gcc
+DLLTOOL=x86_64-w64-mingw32-dlltool
 
 # Next line is duplicated in config.bat, edit both when adding files.
 c := driver.c registry.c bus.c disk.c aoe.c protocol.c debug.c
