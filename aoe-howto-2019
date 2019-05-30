@@ -1,0 +1,88 @@
+Mini howto for making winaoe under Windows 7 with a
+Linux AoE target work. If you have questions or want
+to contribute contact Johannes Thoma
+<johannes@johannesthoma.com>
+
+The original winaoe driver is still availalbe at
+http://winaoe.org . I've just added a small patch
+to make it work with vblade (Linux) as well as
+patches for making it compile with 2019's mingw
+that comes with cygwin.
+
+# Install aoetools (client/AoE initiator) for Ubuntu
+sudo apt-get install aoetools
+
+# Get vblade user space server (AoE target)
+git clone https://github.com/OpenAoE/vblade.git
+
+# build and install vblade
+cd vblade
+make
+sudo make install
+
+# Windows partition manager playground
+sudo vblade 0 1 enp0s8 /dev/sdd9
+
+# formerly
+sudo vblade 0 1 enp0s8 /dev/sdb1
+
+# loopback test
+sudo vblade 0 1 lo /dev/sdb1
+aoe-discover
+aoe-stat
+ls /dev/etherd/e0.1
+
+# on Windows
+Open cmd shell as administrator
+cd into aoe/bin directory
+
+loader64
+
+reboot (it will say so)
+
+Then after reboot following should work:
+
+aoe scan
+	should report targets
+aoe mount <client-MAC> <major> <minor>
+	to mount disk (will show up in partition manager)
+	client MAC is the MAC for the Windows host (use
+	ipconfig /all to display)
+
+When successful there should be a Installing drivers for
+new hardware pop up once.
+
+# building winaoe with MinGW for 64-bit Windows
+
+You need:
+
+cygwin with mingw64-x86_64-gcc-core, mingw64-x86_64-gcc-headers installed
+(plus make) (also runtime?)
+
+for now there are patches needed to the mingw headers (sorry
+for that). TODO: provide patch files.
+
+Unfortunately for signtool you also need the Ewdk from Microsoft.
+
+Edit Makefile for your Ewdk installation (defaults to C:\Ewdk)
+
+The rest is easy:
+
+make
+
+should generate the aoe64.sys loader64.exe aoe.exe and aoe.inf files.
+
+To compile for a 32-bit target do
+
+make -f Makefile.32
+
+(do a make clean if you have built for 64 bit before)
+
+----
+
+Known bugs:
+
+Currently sizes are reported as 0. 
+
+Partition manager claims that the drive is write-protected (however
+this might be because of the size bug).
