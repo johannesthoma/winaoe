@@ -523,6 +523,12 @@ NTSTATUS STDCALL AoEReply(IN PUCHAR SourceMac, IN PUCHAR DestinationMac, IN PUCH
 
   if (!Reply->ResponseFlag) return STATUS_SUCCESS;
 
+    /* current (2019) versions of Linux aoetools set this bit
+     * for reply, need to mask it out, since we don't expect
+     * it later.
+     */
+  Reply->Tag &= ~0x4000000;
+
   if (ProbeTag->Id == Reply->Tag) {
     RtlCopyMemory(&LBASize, &Reply->Data[200], sizeof(LONGLONG));
     BusAddTarget(DestinationMac, SourceMac, ntohs(Reply->Major), Reply->Minor, LBASize);
