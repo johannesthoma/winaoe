@@ -150,6 +150,15 @@ NTSTATUS STDCALL BusAddDevice(IN PDRIVER_OBJECT DriverObject, IN PDEVICE_OBJECT 
   AOEBootRecord.Minor = 10;
 #endif
 
+#define JOHANNES 1
+#ifdef JOHANNES
+  FoundAbft = TRUE;
+  // RtlCopyMemory(AOEBootRecord.ClientMac, "\x08\x00\x27\x88\xce\x59", 6);
+  RtlCopyMemory(AOEBootRecord.ClientMac, "\x08\x00\x27\xb2\xa9\x32", 6);
+  AOEBootRecord.Major = 0;
+  AOEBootRecord.Minor = 3;
+#endif
+
   if (FoundAbft) {
     DbgPrint("Boot from client NIC %02x:%02x:%02x:%02x:%02x:%02x to major: %d minor: %d\n", AOEBootRecord.ClientMac[0], AOEBootRecord.ClientMac[1], AOEBootRecord.ClientMac[2], AOEBootRecord.ClientMac[3], AOEBootRecord.ClientMac[4], AOEBootRecord.ClientMac[5], AOEBootRecord.Major, AOEBootRecord.Minor);
     if (!BusAddChild(DeviceObject, AOEBootRecord.ClientMac, AOEBootRecord.Major, AOEBootRecord.Minor, TRUE)) {
