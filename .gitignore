@@ -2,3 +2,4 @@
 makelog*
 bin
 src/obj
+src/pxe.asm/obj
