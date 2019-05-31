@@ -14,6 +14,9 @@ EWDK_BIN := $(EWDK_KIT)\\bin\\x86
 KEY = linbit-2019
 PASSWD = ""
 
+# Here, configure MAC of your client
+HARDCODE_BOOTPARAMS = 1
+
 INCLUDES := $(shell echo | cpp -v 2>&1 | sed -n '/\#include "..." search starts here:/,/End of search list./p' | grep "^ " | sed "s/^ \(.*\)$$/-I\1\/ddk/" | tr "\n" " " | sed "s/ $$//" | sed ":start;s/\/[^\/]*\/\.\.\//\//;t start")
 
 # INCLUDES += -I"/cygdrive/c/Ewdk/Program Files/Windows Kits/10/Include/10.0.15063.0/km"
@@ -100,7 +103,11 @@ src/obj/registry.o: src/registry.c src/portable.h Makefile
 src/obj/bus.o: src/bus.c src/portable.h src/driver.h src/aoe.h src/mount.h Makefile
 	@mkdir -p src/obj
 	@rm -rf src/obj/bus.o
+ifdef HARDCODE_BOOTPARAMS
+	$(CC) $(INCLUDES) -c -Wall src/bus.c -o src/obj/bus.o -DBOOT_MAC="\x08\x00\x27\xb2\xa9\x32" -DHARDCODE_BOOTPARAMS -DBOOT_MAJOR=0 -DBOOT_MINOR=3
+else
 	$(CC) $(INCLUDES) -c -Wall src/bus.c -o src/obj/bus.o
+endif
 
 src/obj/disk.o: src/disk.c src/portable.h src/driver.h src/aoe.h Makefile
 	@mkdir -p src/obj

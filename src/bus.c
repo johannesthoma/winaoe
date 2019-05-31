@@ -150,13 +150,13 @@ NTSTATUS STDCALL BusAddDevice(IN PDRIVER_OBJECT DriverObject, IN PDEVICE_OBJECT 
   AOEBootRecord.Minor = 10;
 #endif
 
-#define JOHANNES 1
-#ifdef JOHANNES
+#ifdef HARDCODE_BOOTPARAMS
+#define STRING(s) #s
+#define STRING2(s2) STRING(s2)
   FoundAbft = TRUE;
-  // RtlCopyMemory(AOEBootRecord.ClientMac, "\x08\x00\x27\x88\xce\x59", 6);
-  RtlCopyMemory(AOEBootRecord.ClientMac, "\x08\x00\x27\xb2\xa9\x32", 6);
-  AOEBootRecord.Major = 0;
-  AOEBootRecord.Minor = 3;
+  RtlCopyMemory(AOEBootRecord.ClientMac, STRING2(BOOT_MAC) , 6);
+  AOEBootRecord.Major = BOOT_MAJOR;
+  AOEBootRecord.Minor = BOOT_MINOR;
 #endif
 
   if (FoundAbft) {
