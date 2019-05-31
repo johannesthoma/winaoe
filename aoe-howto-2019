@@ -93,7 +93,23 @@ You should see the DbgPrint output (try aoe scan it will print something)
 
 Known bugs:
 
-Currently sizes are reported as 0. 
+Fixed: Currently sizes are reported as 0. Was MinGW bug (attribute
+packed does not work).
 
-Partition manager claims that the drive is write-protected (however
-this might be because of the size bug).
+Sometimes: Partition manager claims that the drive is write-protected (however
+this might be because of the size bug). Sometimes it works.
+
+aoe umount BSODs.
+
+----
+
+Booting: Now hardcoded Diskless Client's MAC address: To boot:
+
+sudo chmod o+rw /dev/sdf
+cd Linbit/vblade/vblade/
+sudo ./vblade 0 3 enp0s8 /dev/sdf
+
+and use iPXE sanboot command to boot via http (need drbd.cgi,
+see WinDRBD repo).
+
+(this is specific to my setup)
