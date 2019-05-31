@@ -80,6 +80,17 @@ make -f Makefile.32
 
 ----
 
+Debugging with Windows:
+
+Install WinDbg
+Start it and select:
+	Capture Kernel
+	Kernel Verbose Output
+
+You should see the DbgPrint output (try aoe scan it will print something)
+
+----
+
 Known bugs:
 
 Currently sizes are reported as 0. 
