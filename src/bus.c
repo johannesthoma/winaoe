@@ -28,9 +28,7 @@
 BOOLEAN STDCALL BusAddChild(IN PDEVICE_OBJECT BusDeviceObject, IN PUCHAR ClientMac, IN ULONG Major, IN ULONG Minor, IN BOOLEAN Boot);
 NTSTATUS STDCALL IoCompletionRoutine(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN PKEVENT Event);
 
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef struct _ABFT {
   UINT Signature;               // 0x54464261 (aBFT)
   UINT Length;
@@ -44,9 +42,7 @@ typedef struct _ABFT {
   UCHAR Reserved2;
   UCHAR ClientMac[6];
 } __attribute__((__packed__)) ABFT, *PABFT;
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 typedef struct _TARGETLIST {
   TARGET Target;

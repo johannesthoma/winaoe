@@ -36,9 +36,7 @@ long long __divdi3(long long u, long long v) {return u / v;}
 
 #ifdef _MSC_VER
 #if _WIN32_WINNT <= 0x0500
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef union _EIGHT_BYTE {
   struct {
     UCHAR Byte0;
@@ -52,9 +50,7 @@ typedef union _EIGHT_BYTE {
   };
   ULONGLONG AsULongLong;
 } __attribute__((__packed__)) EIGHT_BYTE, *PEIGHT_BYTE;
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 #define REVERSE_BYTES_QUAD(Destination, Source) { \
   PEIGHT_BYTE d = (PEIGHT_BYTE)(Destination);     \
@@ -72,21 +68,15 @@ typedef union _EIGHT_BYTE {
 #endif
 
 #if _WIN32_WINNT < 0x0502
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef struct _READ_CAPACITY_DATA_EX {
   LARGE_INTEGER LogicalBlockAddress;
   ULONG BytesPerBlock;
 } __attribute__((__packed__)) READ_CAPACITY_DATA_EX, *PREAD_CAPACITY_DATA_EX;
-#ifdef _MSC_VER
 #pragma pack()
 #endif
-#endif
 
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef struct _PORTABLE_CDB16 {
   UCHAR OperationCode;
   UCHAR Reserved1:3;
@@ -98,9 +88,7 @@ typedef struct _PORTABLE_CDB16 {
   UCHAR Reserved2;
   UCHAR Control;
 } __attribute__((__packed__)) CDB16, *PCDB16;
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 DEFINE_GUID(GUID_BUS_TYPE_INTERNAL, 0x2530ea73L, 0x086b, 0x11d1, 0xa0, 0x9f, 0x00, 0xc0, 0x4f, 0xc3, 0x40, 0xb1);
 

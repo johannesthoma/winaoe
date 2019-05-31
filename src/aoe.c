@@ -33,9 +33,7 @@ VOID STDCALL BusCleanupTargetList();
 // in this file
 VOID STDCALL Thread(IN PVOID StartContext);
 
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef enum {RequestType, SearchDriveType} TAGTYPE, *PTAGTYPE;
 
 typedef struct _AOE {
@@ -76,9 +74,7 @@ typedef struct _AOE {
 
   UCHAR Data[];
 } __attribute__((__packed__)) AOE, *PAOE;
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 typedef struct _REQUEST {
   REQUESTMODE Mode;

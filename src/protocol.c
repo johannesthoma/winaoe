@@ -42,18 +42,14 @@ VOID STDCALL NTAPI ProtocolUnbindAdapter(OUT PNDIS_STATUS Status, IN NDIS_HANDLE
 NDIS_STATUS STDCALL NTAPI ProtocolPnPEvent(IN NDIS_HANDLE  ProtocolBindingContext, IN PNET_PNP_EVENT NetPnPEvent);
 PCHAR STDCALL NetEventString(IN NET_PNP_EVENT_CODE NetEvent);
 
-#ifdef _MSC_VER
 #pragma pack(1)
-#endif
 typedef struct _HEADER {
   UCHAR DestinationMac[6];
   UCHAR SourceMac[6];
   USHORT Protocol;
   UCHAR Data[];
 } __attribute__((__packed__)) HEADER, *PHEADER;
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 typedef struct _BINDINGCONTEXT {
   BOOLEAN Active;
