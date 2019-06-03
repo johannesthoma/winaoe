@@ -1,0 +1,33 @@
+From be10deca3a2294c569b8d6320b7a9f64112e90c5 Mon Sep 17 00:00:00 2001
+From: Johannes Thoma <johannes@johannesthoma.com>
+Date: Mon, 3 Jun 2019 16:35:54 +0200
+Subject: [PATCH 2/4] scsi.h: Fixed duplicate Reserved1 field.
+
+---
+ scsi.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scsi.h b/scsi.h
+index 962b2a9..11e3e89 100644
+--- a/scsi.h
++++ b/scsi.h
+@@ -980,14 +980,14 @@ typedef union _CDB {
+       UCHAR PlayLength[4];
+     };
+     struct _MSF {
+-      UCHAR Reserved1;
++      UCHAR Reserved1_msf;
+       UCHAR StartingM;
+       UCHAR StartingS;
+       UCHAR StartingF;
+       UCHAR EndingM;
+       UCHAR EndingS;
+       UCHAR EndingF;
+-      UCHAR Reserved2;
++      UCHAR Reserved2_msf;
+     };
+     _ANONYMOUS_UNION union {
+       struct _LBA LBA;
+-- 
+2.21.0
+

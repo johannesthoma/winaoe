@@ -1,0 +1,25 @@
+From c879e66916f6ee23918efa630f6dbaacea12613f Mon Sep 17 00:00:00 2001
+From: Johannes Thoma <johannes@johannesthoma.com>
+Date: Mon, 3 Jun 2019 16:40:02 +0200
+Subject: [PATCH 3/4] ndis.h: Fixed syntactically wrong prototype
+
+---
+ ndis.h      |   2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ndis.h b/ndis.h
+index bf3a5bc..d015247 100644
+--- a/ndis.h
++++ b/ndis.h
+@@ -4424,7 +4424,7 @@ NDISAPI
+ VOID
+ NTAPI
+ NdisMWanIndicateReceiveComplete(
+-	IN NDIS_HANDLE  MiniportAdapterHandle
++	IN NDIS_HANDLE  MiniportAdapterHandle,
+ 	IN NDIS_HANDLE  NdisLinkContext);
+ 
+ NDISAPI
+-- 
+2.21.0
+

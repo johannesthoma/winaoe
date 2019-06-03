@@ -60,7 +60,15 @@ cygwin with mingw64-x86_64-gcc-core, mingw64-x86_64-gcc-headers installed
 (plus make) (also runtime?)
 
 for now there are patches needed to the mingw headers (sorry
-for that). TODO: provide patch files.
+for that). Patch files are included in cygwin-mingw-header-patches
+to apply do a
+
+	cd /usr/x86_64-w64-mingw32/sys-root/mingw/include/ddk
+	patch -p 1 < patchfile
+
+(for all patchfiles, something like:
+	for i in /path/to/patchdir/*.patch ; do patch -p 1 < $i ; done
+will do the trick).
 
 Unfortunately for signtool you also need the Ewdk from Microsoft.
 

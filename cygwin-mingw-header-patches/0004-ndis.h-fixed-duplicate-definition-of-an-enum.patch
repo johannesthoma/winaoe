@@ -1,0 +1,32 @@
+From 05c78ad9020495acfe10a132c3ff3efc7e39eb96 Mon Sep 17 00:00:00 2001
+From: Johannes Thoma <johannes@johannesthoma.com>
+Date: Mon, 3 Jun 2019 16:51:08 +0200
+Subject: [PATCH 4/4] ndis.h: fixed duplicate definition of an enum.
+
+---
+ ndis.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/ndis.h b/ndis.h
+index d015247..161e8a7 100644
+--- a/ndis.h
++++ b/ndis.h
+@@ -779,6 +779,7 @@ typedef struct _NDIS_PACKET_OOB_DATA {
+ } NDIS_PACKET_OOB_DATA, *PNDIS_PACKET_OOB_DATA;
+ #endif
+ 
++#if 0
+ /* Request types used by NdisRequest */
+ typedef enum _NDIS_REQUEST_TYPE {
+   NdisRequestQueryInformation,
+@@ -797,6 +798,7 @@ typedef enum _NDIS_REQUEST_TYPE {
+   NdisRequestMethod,
+ #endif
+ } NDIS_REQUEST_TYPE, *PNDIS_REQUEST_TYPE;
++#endif
+ 
+ #if NDIS_LEGACY_DRIVER
+ typedef struct _NDIS_REQUEST {
+-- 
+2.21.0
+

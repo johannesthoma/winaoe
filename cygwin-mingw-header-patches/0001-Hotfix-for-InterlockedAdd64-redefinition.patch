@@ -1,0 +1,32 @@
+From 1af9813280c150013e1e6a2450a9ee70d8e237d7 Mon Sep 17 00:00:00 2001
+From: Johannes Thoma <johannes@johannesthoma.com>
+Date: Mon, 3 Jun 2019 16:32:49 +0200
+Subject: [PATCH 1/4] Hotfix for InterlockedAdd64 redefinition.
+
+---
+ wdm.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/wdm.h b/wdm.h
+index 6ac1690..5ca99d3 100644
+--- a/wdm.h
++++ b/wdm.h
+@@ -369,6 +369,7 @@ InterlockedExchangeAdd(
+ 
+ #endif // _M_AMD64
+ 
++#if 0
+ #if defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
+ //#if !defined(_X86AMD64_) // FIXME: what's _X86AMD64_ used for?
+ FORCEINLINE
+@@ -381,6 +382,7 @@ InterlockedAdd64(
+ }
+ //#endif
+ #endif
++#endif
+ 
+ #endif /* !__INTERLOCKED_DECLARED */
+ 
+-- 
+2.21.0
+
