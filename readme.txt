@@ -1,3 +1,30 @@
+WinAoE for 64-bit Windows 7
+
+I"ve added a few patches to make WinAoE compile with an
+up-to-date (2019) cygwin MinGW and to make it run on
+Windows 7 64-bit (Windows 10 might also work but hasn't
+been tested). Other than that the repo is a copy of
+the sources found on the winaoe.org website.
+
+It has been tested with the vblade AoE target (server)
+under Linux. See https://github.com/OpenAoE/vblade.git
+
+It also can boot a Windows 7 once you provide a way 
+to load the Windows drivers (we do so via sanboot http://...
+and a small cgi script that serves a block device.
+
+To find how to set it up the instructions in aoe-howto-2019
+might be helpful.
+
+If you have any questions regarding this winaoe clone,
+feel free to eMail me at johannes@johannesthoma.com
+
+Best wishes and happy hacking,
+
+- Johannes Thoma
+
+Original readme.txt below:
+-------------------------------------------
 WinAoE (http://winaoe.org/)
 
 Diskless AoE Driver for:
