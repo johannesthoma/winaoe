@@ -15,7 +15,7 @@ KEY = linbit-2019
 PASSWD = ""
 
 # Here, configure MAC of your client
-HARDCODE_BOOTPARAMS = 1
+# HARDCODE_BOOTPARAMS = 1
 
 INCLUDES := $(shell echo | cpp -v 2>&1 | sed -n '/\#include "..." search starts here:/,/End of search list./p' | grep "^ " | sed "s/^ \(.*\)$$/-I\1\/ddk/" | tr "\n" " " | sed "s/ $$//" | sed ":start;s/\/[^\/]*\/\.\.\//\//;t start")
 
