@@ -335,6 +335,7 @@ NTSTATUS STDCALL BusDispatchPnP(IN PDEVICE_OBJECT DeviceObject, IN PIRP Irp, IN 
       Walker = DeviceExtension->Bus.ChildList;
       while (Walker != NULL) {
         DeviceRelations->Objects[Count] = Walker->Self;
+        ObReferenceObject(Walker->Self);
         Count++;
         Walker = Walker->Disk.Next;
       }
